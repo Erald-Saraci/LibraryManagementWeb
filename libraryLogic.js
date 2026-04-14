@@ -171,7 +171,7 @@ const LibraryService = {
         const loans = JSON.parse(localStorage.getItem('library_loans')) || [];
         
         const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() -5);
+        dueDate.setDate(dueDate.getDate() + 14);
         
         const newLoan = {
             loanId: 'L' + Date.now(),
