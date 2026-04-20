@@ -1,101 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>University Library Booking</title>
-    <link rel="stylesheet" href="libraryStyle.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Management </title>
+  <link rel="stylesheet" href="libraryStyle.css" />
 </head>
 <body>
-    <div id="auth-container">
-        <div id="login-view" class="auth-box">
-            <h2>Login</h2>
-            <input type="text" id="login-username" placeholder="Username" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button id="login-btn" class="primary">Login</button>
-            <p>Don't have an account? <span id="go-to-signup" class="link">Sign up</span></p>
-        </div>
-        <div id="signup-view" class="auth-box" style="display: none;">
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-username" placeholder="Username" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <div class="password-rules">
-                Min 8 chars, 1 upper, 1 lower, 1 number, 1 special.<br>No sequences (e.g., abc, 123).
-            </div>
-            
-            <label style="display: flex; gap: 10px; align-items: center; font-size: 0.9rem;">
-                <input type="checkbox" id="signup-is-admin"> Register as Admin
-            </label>
-            <input type="password" id="signup-admin-secret" placeholder="Admin Secret Key" style="display: none;">
-
-            <button id="signup-btn" class="primary">Sign Up</button>
-            <p>Already have an account? <span id="go-to-login" class="link">Login</span></p>
-        </div>
-    </div>
-
-    <div id="app-container" style="display: none;">
-        <header>
-            <h1>Library Booking System</h1>
-            <nav style="display: flex; gap: 1rem; align-items: center;">
-                <button id="view-catalog-btn" class="active">Browse Catalog</button>
-                <button id="view-admin-btn" class="danger" style="display: none;">Admin Panel</button>
-                
-                <div class="dropdown">
-                    <button class="dropbtn">My Account ▼</button>
-                    <div class="dropdown-content">
-                        <button id="view-profile-btn">My Profile</button>
-                        <button id="view-dashboard-btn">My Dashboard</button>
-                        <button id="view-fines-btn">Check Fines</button>
-                        <button id="logout-btn" class="danger" style="border-radius: 0;">Logout</button>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <main>
-            <section id="catalog-view" class="view active-view">
-                <h2>Book Catalog</h2>
-                <div id="book-grid" class="grid"></div>
-            </section>
-
-            <section id="dashboard-view" class="view">
-                <h2>My Active Loans</h2>
-                <div id="loans-list" class="list"></div>
-            </section>
-
-            <section id="profile-view" class="view">
-                <h2>My Profile</h2>
-                <div class="card" style="max-width: 400px;">
-                    <h3 id="profile-name"></h3>
-                    <p id="profile-role" class="meta"></p>
-                </div>
-            </section>
-
-            <section id="fines-view" class="view">
-                <h2 id="fines-title">My Fines</h2>
-                <div class="card" style="margin-bottom: 1rem;">
-                    <h3 id="fines-summary"></h3>
-                </div>
-                <div id="fines-list" class="list"></div>
-            </section>
-
-            <section id="admin-view" class="view">
-                <h2>Issue a Fine</h2>
-                <div class="card form-card" style="max-width: 500px; margin-bottom: 2rem;">
-                    <select id="fine-user-select">
-                        <option value="">Select a User...</option>
-                    </select>
-                    <input type="number" id="fine-amount" placeholder="Fine Amount ($)" min="1" step="0.5">
-                    <input type="text" id="fine-reason" placeholder="Reason (e.g., Late return, Damaged book)">
-                    <button class="danger" id="submit-fine-btn">Issue Fine</button>
-                </div>
-                <h2>Registered Users</h2>
-                <div id="users-list" class="grid"></div>
-            </section>
-        </main>
-    </div>
-
-    <script src="libraryLogic.js"></script>
-    <script src="Controller.js"></script>
+  <div id="app"></div>
+  <script src="libraryLogic.js"></script>
 </body>
 </html>
