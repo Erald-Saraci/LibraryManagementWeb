@@ -1,14 +1,5 @@
 import { state, getBooks, getUsers, getRentals, getWishlist, getActivity, getOverdueRentals, read } from './models.js';
 
-(function hideEdgePasswordReveal() {
-  const style = document.createElement('style');
-  style.textContent = `
-    input[type="password"]::-ms-reveal,
-    input[type="password"]::-ms-clear { display: none !important; width: 0 !important; height: 0 !important; }
-  `;
-  document.head.appendChild(style);
-})();
-
 function clone(templateId) {
   const tpl = document.getElementById(templateId);
   if (!tpl) throw new Error(`Template not found: ${templateId}`);
@@ -168,7 +159,7 @@ function renderBrowseBooks(user, books, rentals, wishlist) {
   });
 
   const panel = clone('tpl-browse-panel');
-  
+
   const searchInput = document.createElement('input');
   searchInput.id = 'bookSearch';
   searchInput.placeholder = 'Search by title or author';
@@ -227,7 +218,7 @@ function renderWishlist(books, wishlist) {
   const panel = clone('tpl-panel');
   setText(panel, 'title', 'Wishlist');
   const wishlistBooks = books.filter(b => wishlist.includes(b.id));
-  
+
   if (wishlistBooks.length === 0) {
     const empty = clone('tpl-empty-message');
     setText(empty, 'message', 'Your wishlist is empty.');
@@ -462,7 +453,7 @@ function renderAdminFines(overdueRentals) {
 function renderAdminBooks(books) {
   const panel = clone('tpl-admin-books');
   const tbody = document.createDocumentFragment();
-  
+
   books.forEach(book => {
     const row = clone('tpl-book-row');
     setText(row, 'title', book.title);
@@ -513,7 +504,7 @@ function renderAdminUsers(users) {
       delBtn.dataset.deleteUser = user.id;
       delBtn.textContent = 'Delete';
       setContent(row, 'actions', delBtn);
-      
+
       tbody.appendChild(row);
     });
   }
@@ -624,7 +615,7 @@ function rentalItem(rental) {
   returnBtn.dataset.returnBook = rental.bookId;
   returnBtn.textContent = 'Return book';
   setContent(fragment, 'returnBtn', returnBtn);
-  
+
   return fragment;
 }
 
