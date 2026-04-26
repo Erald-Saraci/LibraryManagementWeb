@@ -3,11 +3,323 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Management </title>
+  <title>Book Management</title>
   <link rel="stylesheet" href="libraryStyle.css" />
 </head>
 <body>
+
   <div id="app"></div>
-  <script src="libraryLogic.js"></script>
+
+  <template id="tpl-auth-shell">
+    <div class="auth-shell">
+      <div class="card auth-card">
+        <div class="brand">
+          <div class="brand-badge">B</div>
+          <div><h1 style="font-size:22px;">Book Management System</h1></div>
+        </div>
+        <h2 class="center" data-slot="title"></h2>
+        <div data-slot="form"></div>
+        <div class="demo-box"><strong>Demo admin:</strong> Admin / admin123</div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-login-form">
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginName">Name</label>
+        <input id="loginName" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <div class="password-wrap">
+          <input id="loginPassword" name="password" type="password" required autocomplete="current-password" />
+          <button type="button" class="password-toggle" data-toggle-password="loginPassword">Show</button>
+        </div>
+      </div>
+      <div id="loginError"></div>
+      <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+      <p class="center muted auth-switch-text">
+        No account? <button type="button" class="link-button" data-switch-auth="signup">Sign up</button>
+      </p>
+    </form>
+  </template>
+
+  <template id="tpl-signup-form">
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="signupName">Name</label>
+        <input id="signupName" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPhone">Phone number</label>
+        <input id="signupPhone" name="phone" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <div class="password-wrap">
+          <input id="signupPassword" name="password" type="password" minlength="4" required autocomplete="new-password" />
+          <button type="button" class="password-toggle" data-toggle-password="signupPassword">Show</button>
+        </div>
+      </div>
+      <div id="signupError"></div>
+      <button class="btn btn-primary btn-block" type="submit">Create account</button>
+      <p class="center muted auth-switch-text">
+        Already registered? <button type="button" class="link-button" data-switch-auth="login">Sign in</button>
+      </p>
+    </form>
+  </template>
+
+  <template id="tpl-app-shell">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">B</div>
+          <div>
+            <h2 style="margin-bottom:4px; font-size:18px;">Book Management System</h2>
+            <p class="muted" style="margin:0;" data-slot="subtitle"></p>
+          </div>
+        </div>
+        <div data-slot="nav"></div>
+        <div class="sidebar-footer">
+          <div class="user-chip">
+            <strong data-slot="userName"></strong><br />
+            <span class="muted" data-slot="userRole"></span>
+          </div>
+          <button class="btn btn-secondary btn-block" data-action="logout">Logout</button>
+        </div>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <div><h2 style="margin-bottom:4px;" data-slot="title"></h2></div>
+        </div>
+        <div data-slot="content"></div>
+      </main>
+    </div>
+  </template>
+
+  <template id="tpl-panel">
+    <div class="panel card">
+      <h3 data-slot="title"></h3>
+      <div data-slot="content"></div>
+    </div>
+  </template>
+
+  <template id="tpl-browse-panel">
+    <div class="panel card">
+      <h3>Browse books</h3>
+      <div class="filter-row" data-slot="filters"></div>
+      <div class="books-grid" data-slot="grid"></div>
+    </div>
+  </template>
+
+  <template id="tpl-admin-summary">
+    <div class="panel card">
+      <h3>Admin summary</h3>
+      <p class="muted">Manage books, watch user activity, and track overdue returns from one place.</p>
+      <div class="stats-grid compact-top" data-slot="grid"></div>
+    </div>
+  </template>
+
+  <template id="tpl-admin-fines">
+    <div class="panel card">
+      <h3>Late returns and fines</h3>
+      <p class="muted">Fine rule: $5 base + $5 every 60 overdue days.</p>
+      <div class="filter-row" data-slot="filters"></div>
+      <div class="stats-grid compact-top" data-slot="stats"></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>User</th><th>Book</th><th>Due date</th><th>Days overdue</th><th>Fine</th></tr>
+          </thead>
+          <tbody data-slot="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-fine-row">
+    <tr>
+      <td data-slot="user"></td>
+      <td data-slot="book"></td>
+      <td data-slot="due"></td>
+      <td data-slot="overdue"></td>
+      <td data-slot="fine"></td>
+    </tr>
+  </template>
+
+  <template id="tpl-admin-books">
+    <div class="panel card">
+      <div class="topbar" style="margin-bottom:16px;">
+        <h3 style="margin:0;">Manage books</h3>
+        <button class="btn btn-primary" data-action="open-add-book">Add book</button>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Title</th><th>Author</th><th>Category</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody data-slot="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-book-row">
+    <tr>
+      <td data-slot="title"></td>
+      <td data-slot="author"></td>
+      <td data-slot="category"></td>
+      <td data-slot="status"></td>
+      <td data-slot="actions"></td>
+    </tr>
+  </template>
+
+  <template id="tpl-admin-users">
+    <div class="panel card">
+      <h3>Registered users</h3>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>Role</th><th>Rentals</th><th>Actions</th></tr>
+          </thead>
+          <tbody data-slot="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-user-row">
+    <tr>
+      <td data-slot="name"></td>
+      <td data-slot="phone"></td>
+      <td data-slot="role"></td>
+      <td data-slot="rentals"></td>
+      <td data-slot="actions"></td>
+    </tr>
+  </template>
+
+  <template id="tpl-book-modal">
+    <div class="modal-backdrop">
+      <div class="card modal">
+        <h3 data-slot="title"></h3>
+        <form id="bookForm">
+          <div class="form-group">
+            <label>Title</label>
+            <input name="title" required />
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input name="author" required />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input name="category" required />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="description"></textarea>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" type="button" data-action="close-modal">Cancel</button>
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-error-fallback">
+    <div class="auth-shell">
+      <div class="card auth-card">
+        <h2>Something went wrong</h2>
+        <p class="muted">The page hit an error, but it did not crash completely.</p>
+        <div class="error" data-slot="message"></div>
+        <button class="btn btn-primary btn-block" id="reloadAppButton" type="button">Reload app</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-book-card">
+    <div class="card book-card">
+      <div class="book-cover" data-slot="cover"></div>
+      <div>
+        <span class="badge info" data-slot="category"></span>
+        <h3 style="margin:10px 0 6px;" data-slot="title"></h3>
+        <p class="muted" style="margin-bottom:8px;" data-slot="author"></p>
+        <p class="muted" data-slot="description"></p>
+      </div>
+      <div class="flex-row" data-slot="actions"></div>
+    </div>
+  </template>
+
+  <template id="tpl-rental-item">
+    <div class="list-item">
+      <h4 data-slot="title"></h4>
+      <p class="muted" data-slot="dates"></p>
+      <div data-slot="returnBtn"></div>
+    </div>
+  </template>
+
+  <template id="tpl-stat-card">
+    <div class="card stat-card">
+      <div class="label" data-slot="label"></div>
+      <div class="value" data-slot="value"></div>
+    </div>
+  </template>
+
+  <template id="tpl-mini-stat">
+    <div class="card mini-stat">
+      <div class="label" data-slot="label"></div>
+      <div class="value" data-slot="value"></div>
+    </div>
+  </template>
+
+  <template id="tpl-bar-row">
+    <div class="bar-row">
+      <div class="bar-label" data-slot="label"></div>
+      <div class="bar-track"><div class="bar-fill"></div></div>
+      <div class="bar-value" data-slot="value"></div>
+    </div>
+  </template>
+
+  <template id="tpl-list-item">
+    <div class="list-item">
+      <strong data-slot="title"></strong>
+      <p class="muted" data-slot="subtitle"></p>
+    </div>
+  </template>
+
+  <template id="tpl-health-item">
+    <div class="list-item">
+      <strong data-slot="value"></strong><br>
+      <span class="muted" data-slot="label"></span>
+    </div>
+  </template>
+
+  <template id="tpl-reader-item">
+    <div class="list-item row-between">
+      <span data-slot="name"></span>
+      <span class="badge info" data-slot="count"></span>
+    </div>
+  </template>
+
+  <template id="tpl-empty-message">
+    <p class="empty" data-slot="message"></p>
+  </template>
+
+  <template id="tpl-badge">
+    <span class="badge" data-slot="text"></span>
+  </template>
+
+  <template id="tpl-action-buttons-book">
+    <div class="flex-row">
+      <button class="btn btn-secondary btn-small" data-slot="edit">Edit</button>
+      <button class="btn btn-secondary btn-small" data-slot="toggle"></button>
+      <button class="btn btn-danger btn-small" data-slot="delete">Delete</button>
+    </div>
+  </template>
+
+  <script type="module" src="libraryLogic.js"></script>
 </body>
 </html>
