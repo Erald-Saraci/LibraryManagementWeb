@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book Management</title>
-  <link rel="stylesheet" href="libraryStyle.css" />
+  <link rel="stylesheet" href="style/libraryStyle.css" />
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       <div class="card auth-card">
         <div class="brand">
           <div class="brand-badge">B</div>
-          <div><h1 style="font-size:22px;">Book Management System</h1></div>
+          <div><h1>Book Management System</h1></div>
         </div>
         <h2 class="center" data-slot="title"></h2>
         <div data-slot="form"></div>
@@ -76,8 +76,8 @@
         <div class="brand">
           <div class="brand-badge">B</div>
           <div>
-            <h2 style="margin-bottom:4px; font-size:18px;">Book Management System</h2>
-            <p class="muted" style="margin:0;" data-slot="subtitle"></p>
+            <h2>Book Management System</h2>
+            <p class="muted" data-slot="subtitle"></p>
           </div>
         </div>
         <div data-slot="nav"></div>
@@ -91,7 +91,7 @@
       </aside>
       <main class="main">
         <div class="topbar">
-          <div><h2 style="margin-bottom:4px;" data-slot="title"></h2></div>
+          <div><h2 data-slot="title"></h2></div>
         </div>
         <div data-slot="content"></div>
       </main>
@@ -150,8 +150,8 @@
 
   <template id="tpl-admin-books">
     <div class="panel card">
-      <div class="topbar" style="margin-bottom:16px;">
-        <h3 style="margin:0;">Manage books</h3>
+      <div class="topbar">
+        <h3>Manage books</h3>
         <button class="btn btn-primary" data-action="open-add-book">Add book</button>
       </div>
       <div class="table-wrap">
@@ -245,8 +245,8 @@
       <div class="book-cover" data-slot="cover"></div>
       <div>
         <span class="badge info" data-slot="category"></span>
-        <h3 style="margin:10px 0 6px;" data-slot="title"></h3>
-        <p class="muted" style="margin-bottom:8px;" data-slot="author"></p>
+        <h3 data-slot="title"></h3>
+        <p class="muted" data-slot="author"></p>
         <p class="muted" data-slot="description"></p>
       </div>
       <div class="flex-row" data-slot="actions"></div>
@@ -320,6 +320,6 @@
     </div>
   </template>
 
-  <script type="module" src="libraryLogic.js"></script>
+  <script type="module" src="script/libraryLogic.js"></script>
 </body>
 </html>
