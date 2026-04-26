@@ -1,6 +1,6 @@
-import { 
-  state, write, STORAGE_KEYS, getUsers, saveUsers, getBooks, 
-  saveBooks, getRentals, saveRentals, getWishlist, saveWishlist, addActivity 
+import {
+  state, write, STORAGE_KEYS, getUsers, saveUsers, getBooks,
+  saveBooks, getRentals, saveRentals, getWishlist, saveWishlist, addActivity
 } from './models.js';
 
 import { render, clearAuthMessages, setMessage } from './UserInterface.js';
@@ -38,7 +38,7 @@ function bindEvents() {
   document.querySelectorAll('[data-user-view]').forEach(button => {
     button.addEventListener('click', () => { state.userView = button.dataset.userView; updateApp(); });
   });
-  
+
   document.querySelectorAll('[data-admin-view]').forEach(button => {
     button.addEventListener('click', () => { state.adminView = button.dataset.adminView; updateApp(); });
   });
@@ -275,6 +275,5 @@ function deleteUser(userId) {
   addActivity('User deleted', state.currentUser.name, user ? user.name : 'Unknown');
   updateApp();
 }
-
 
 updateApp();
